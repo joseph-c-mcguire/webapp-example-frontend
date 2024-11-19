@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=SleekFont:wght@400;700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'SleekFont', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f0f4f8; /* light blueish grey */
+  color: #2d3436; /* dark grey */
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
