@@ -1,6 +1,8 @@
 ## Node.JS Git Ignore
-.env
-node_modules
+node_modules/
+.gitignore
 npm-debug.log
 yarn-error.log
 package-lock.json
+.git/
+.vagrant/
