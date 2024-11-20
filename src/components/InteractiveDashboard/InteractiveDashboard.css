@@ -53,3 +53,26 @@
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+.custom-legend {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+.legend-item {
+	display: flex;
+	align-items: center;
+	margin-right: 10px;
+}
+
+.legend-color {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	margin-right: 5px;
+}
+
+.legend-label {
+	font-size: 14px;
+}
