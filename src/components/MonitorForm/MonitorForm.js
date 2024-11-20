@@ -9,16 +9,28 @@ const MonitorForm = ({ setResult }) => {
     processTemperature: '350',
     rotationalSpeed: '1500',
     torque: '50',
-    toolWear: '10'
+    toolWear: '10',
+    modelName: 'best_model', // Add modelName to formData
+    resultType: 'binary' // Add resultType to formData
   });
   const [backendUrl, setBackendUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [availableModels, setAvailableModels] = useState([]); // Add state for available models
 
   useEffect(() => {
     const url = process.env.REACT_APP_BACKEND_URL;
     setBackendUrl(url);
     console.log("Backend URL from env: ", url); // Log the backend URL for debugging
+
+    // Fetch available models from the backend
+    axios.get(`${url}/available-models`)
+      .then(response => {
+        setAvailableModels(response.data.available_models);
+      })
+      .catch(error => {
+        console.error('Error fetching available models:', error);
+      });
   }, []);
 
   const handleChange = (e) => {
@@ -46,7 +58,9 @@ const MonitorForm = ({ setResult }) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.post(`${backendUrl}/predict`, {
+      const endpoint = formData.resultType === 'probability' ? 'predict-probabilities' : 'predict';
+      const response = await axios.post(`${backendUrl}/${endpoint}`, {
+        model_name: formData.modelName, // Use the specified model name
         features: {
           Type: formData.type,
           'Air temperature [K]': parseFloat(formData.airTemperature),
@@ -67,7 +81,7 @@ const MonitorForm = ({ setResult }) => {
 
   return (
     <div className="monitor-form-container">
-      <h2>Monitor Model Performance</h2>
+      <h2>Model Query</h2>
       <form onSubmit={handleSubmit} className="monitor-form">
         <div className="form-group">
           <label htmlFor="type">Quality of the item:</label>
@@ -127,6 +141,21 @@ const MonitorForm = ({ setResult }) => {
             value={formData.toolWear}
             onChange={handleChange}
           />
+        </div>
+        <div className="form-group">
+          <label htmlFor="modelName">Model Name:</label>
+          <select id="modelName" name="modelName" value={formData.modelName} onChange={handleChange}>
+            {availableModels.map(model => (
+              <option key={model} value={model}>{model}</option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label htmlFor="resultType">Result Type:</label>
+          <select id="resultType" name="resultType" value={formData.resultType} onChange={handleChange}>
+            <option value="binary">Binary</option>
+            <option value="probability">Probability</option>
+          </select>
         </div>
         <button type="submit" className="submit-button" disabled={loading}>
           {loading ? 'Submitting...' : 'Submit'}

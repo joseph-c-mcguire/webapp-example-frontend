@@ -16,7 +16,7 @@ const InteractiveDashboard = () => {
 
 	// Load data from API
 	useEffect(() => {
-		axios.get(`${process.env.REACT_APP_BACKEND_URL}/data`)
+		axios.get(`${process.env.REACT_APP_BACKEND_URL}/data?model_name=exampleModel`)
 			.then(response => {
 				setData(response.data);
 			})
@@ -54,8 +54,8 @@ const InteractiveDashboard = () => {
 	};
 
 	const uniqueCategories = [...new Set(data.map(d => d[colorVariable]))];
-	const categoryColors = uniqueCategories.map(category => category === 1 ? 'red' : 'blue');
-	const categoryLabels = uniqueCategories.map(category => category === 1 ? 'Failure' : 'Not a Failure');
+	const categoryColors = uniqueCategories.map((_, index) => `hsl(${index * 360 / uniqueCategories.length}, 70%, 50%)`); // Generate unique colors
+	const categoryLabels = uniqueCategories.map(category => category.toString());
 	const fitColors = ['turquoise', 'pink']; // Colors for linear fits
 
 	const scatterData = {
@@ -161,6 +161,7 @@ const InteractiveDashboard = () => {
 					Color by:
 					<select className="control-select" value={colorVariable} onChange={handleColorChange}>
 						<option value="Target">Target</option> {/* Updated option */}
+						<option value="Failure Type">Failure Type</option> {/* Add option for Failure Type */}
 					</select>
 				</label>
 					<label className="control-label">
@@ -257,7 +258,7 @@ const InteractiveDashboard = () => {
 							<span className="legend-label">{categoryLabels[index]}</span>
 						</div>
 					))}
-						{plotType === 'scatter' && showLinearFit && linearFitData.map((fit, index) => (
+					{plotType === 'scatter' && showLinearFit && linearFitData.map((fit, index) => (
 						<div key={fit.name} className="legend-item">
 							<span className="legend-color" style={{ backgroundColor: fitColors[index] }}></span>
 							<span className="legend-label">{fit.name}</span>

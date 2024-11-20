@@ -30,7 +30,7 @@ const App = () => {
 
   useEffect(() => {
     // Fetch data from the backend
-    fetch('http://localhost:5000/data')
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/data`)
       .then(response => response.json())
       .then(data => {
         console.log('Fetched data:', data);
@@ -46,11 +46,11 @@ const App = () => {
         <div className="main-content">
           <DataDescription />
           <InteractiveDashboard data={data} />
-          {/* <DiagnosticPlots data={data} /> */}
-          <div className="content-row">
+          <div className="content-column"> {/* Change to column layout */}
             <MonitorForm setResult={setResult} />
             <Results result={result} handleNewEntry={handleNewEntry} />
           </div>
+          <DiagnosticPlots data={data} />
         </div>
         <Footer />
       </div>
