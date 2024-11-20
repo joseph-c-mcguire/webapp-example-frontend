@@ -135,9 +135,9 @@ const InteractiveDashboard = () => {
 		<div className="dashboard-card">
 			<h2>Interactive Data Analysis</h2> {/* Updated title */}
 			<div className="controls">
-				<label>
+					<label className="control-label">
 					X-axis:
-					<select value={xVariable} onChange={handleXChange}>
+					<select className="control-select" value={xVariable} onChange={handleXChange}>
 						<option value="Air temperature [K]">Air temperature [K]</option>
 						<option value="Process temperature [K]">Process temperature [K]</option>
 						<option value="Rotational speed [rpm]">Rotational speed [rpm]</option>
@@ -146,9 +146,9 @@ const InteractiveDashboard = () => {
 					</select>
 				</label>
 				{plotType === 'scatter' && (
-					<label>
+						<label className="control-label">
 						Y-axis:
-						<select value={yVariable} onChange={handleYChange}>
+						<select className="control-select" value={yVariable} onChange={handleYChange}>
 							<option value="Air temperature [K]">Air temperature [K]</option>
 							<option value="Process temperature [K]">Process temperature [K]</option>
 							<option value="Rotational speed [rpm]">Rotational speed [rpm]</option>
@@ -156,36 +156,43 @@ const InteractiveDashboard = () => {
 							<option value="Tool wear [min]">Tool wear [min]</option>
 						</select>
 					</label>
-				)}
-				<label>
+					)}
+					<label className="control-label">
 					Color by:
-					<select value={colorVariable} onChange={handleColorChange}>
+					<select className="control-select" value={colorVariable} onChange={handleColorChange}>
 						<option value="Target">Target</option> {/* Updated option */}
 					</select>
 				</label>
-				<label>
+					<label className="control-label">
 					Plot type:
-					<select value={plotType} onChange={handlePlotTypeChange}>
+					<select className="control-select" value={plotType} onChange={handlePlotTypeChange}>
 						<option value="scatter">Scatter</option>
 						<option value="bar">Bar</option>
 					</select>
 				</label>
 				{plotType === 'scatter' && (
 					<>
-						<label>
+							<label className="control-label">
 							Opacity:
-							<input
-								type="number"
-								value={opacity}
-								onChange={handleOpacityChange}
-								step="0.1"
-								min="0.1"
-								max="1"
-							/>
+							<div className="slider-container">
+								<span className="slider-label">0</span>
+								<input
+									className="control-slider"
+									type="range"
+									value={opacity}
+									onChange={handleOpacityChange}
+									step="0.1"
+									min="0"
+									max="1"
+								/>
+								<span className="slider-value">{opacity}</span>
+								<span className="slider-label">1</span>
+							</div>
 						</label>
-						<label>
+							<label className="control-label">
 							Show Linear Fit:
 							<input
+								className="control-checkbox"
 								type="checkbox"
 								checked={showLinearFit}
 								onChange={handleShowLinearFitChange}
@@ -194,15 +201,22 @@ const InteractiveDashboard = () => {
 					</>
 				)}
 				{plotType === 'bar' && (
-					<label>
+					<label className="control-label">
 						Bins:
-						<input
-							type="number"
-							value={bins}
-							onChange={handleBinsChange}
-							step="1"
-							min="1"
-						/>
+						<div className="slider-container">
+							<span className="slider-label">10</span>
+							<input
+								className="control-slider"
+								type="range"
+								value={bins}
+								onChange={handleBinsChange}
+								step="10"
+								min="10"
+								max="1000"
+							/>
+							<span className="slider-value">{bins}</span>
+							<span className="slider-label">1000</span>
+						</div>
 					</label>
 				)}
 			</div>
