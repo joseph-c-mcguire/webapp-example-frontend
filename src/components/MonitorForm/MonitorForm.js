@@ -4,12 +4,12 @@ import './MonitorForm.css'; // Import the CSS file
 
 const MonitorForm = ({ setResult }) => {
   const [formData, setFormData] = useState({
-    type: '',
-    airTemperature: '',
-    processTemperature: '',
-    rotationalSpeed: '',
-    torque: '',
-    toolWear: ''
+    type: 'M',
+    airTemperature: '300',
+    processTemperature: '350',
+    rotationalSpeed: '1500',
+    torque: '50',
+    toolWear: '10'
   });
   const [backendUrl, setBackendUrl] = useState('');
   const [loading, setLoading] = useState(false);
@@ -70,12 +70,12 @@ const MonitorForm = ({ setResult }) => {
       <h2>Monitor Model Performance</h2>
       <form onSubmit={handleSubmit} className="monitor-form">
         <div className="form-group">
-          <label htmlFor="type">Type:</label>
+          <label htmlFor="type">Quality of the item:</label>
           <select id="type" name="type" value={formData.type} onChange={handleChange}>
-            <option value="">Select Type</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="H">H</option>
+            <option value="">Select Quality</option>
+            <option value="L">Low</option>
+            <option value="M">Medium</option>
+            <option value="H">High</option>
           </select>
         </div>
         <div className="form-group">

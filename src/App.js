@@ -51,7 +51,6 @@ const App = () => {
             <MonitorForm setResult={setResult} />
             <Results result={result} handleNewEntry={handleNewEntry} />
           </div>
-          <button onClick={simulateProbabilities}>Simulate Probabilities</button> {/* Add this button for testing */}
         </div>
         <Footer />
       </div>
