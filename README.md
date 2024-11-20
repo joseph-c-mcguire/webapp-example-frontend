@@ -1,24 +1,31 @@
 # Front-end for Predictive Maintenance System
 
+## Description
+This is the frontend for a web-app example, primarily built in React, the back-end displays a dataset obtained from Kaggle on synthetic data generated for predictive maintenance. The following app allows you do some basic Exploratory Data Analysis (EDA) and check out some model diagnostics such as querying the model with different new inputs, performance metrics.
+
 ## Running the Front-end
 To run the front-end application, use the following command:
 
 ```sh
-npm start
+npm run start
 ```
 
-This will start the development server and open the application in your default web browser. The application will be available at http://localhost:3000.
+This will start the development server and open the application in your default web browser. The application will be available at http://localhost.
 
 ## Running Unit Tests
 To run the unit tests, use the following command:
 
 This will launch the test runner in interactive watch mode. The tests will automatically re-run when you make changes to the code.
 ```sh
-npm test
+npm run test
 ```
 ## Installation
 
-To install the front-end, navigate to the `predictive-maintenance` directory and install the dependencies.
+To install the front-end node.js dependices, use the command:
+
+```sh
+npm install
+```
 
 # Getting Started with Create React App
 
@@ -28,7 +35,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm run start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
@@ -61,32 +68,7 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+### `npm run serve`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This will serve the app in [https://localhost:3000](https://localhost:3000) based on the results from `npm run build`. This is used in production.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
