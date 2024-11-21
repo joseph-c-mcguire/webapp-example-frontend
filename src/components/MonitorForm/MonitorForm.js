@@ -10,13 +10,15 @@ const MonitorForm = ({ setResult }) => {
     rotationalSpeed: '1500',
     torque: '50',
     toolWear: '10',
-    modelName: 'best_model', // Add modelName to formData
-    resultType: 'binary' // Add resultType to formData
+    modelName: 'Decision Tree', // Add modelName to formData
+    resultType: 'probability' // Default to probability
   });
   const [backendUrl, setBackendUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [availableModels, setAvailableModels] = useState([]); // Add state for available models
+  const [probabilityResult, setProbabilityResult] = useState(null); // Add state for probability result
+  const [classNames, setClassNames] = useState([]); // Add state for class names
 
   useEffect(() => {
     const url = process.env.REACT_APP_BACKEND_URL;
@@ -30,6 +32,15 @@ const MonitorForm = ({ setResult }) => {
       })
       .catch(error => {
         console.error('Error fetching available models:', error);
+      });
+
+    // Fetch class names from the backend
+    axios.get(`${url}/class-names`)
+      .then(response => {
+        setClassNames(response.data.class_names);
+      })
+      .catch(error => {
+        console.error('Error fetching class names:', error);
       });
   }, []);
 
@@ -58,22 +69,27 @@ const MonitorForm = ({ setResult }) => {
     setLoading(true);
     setError(null);
     try {
-      const endpoint = formData.resultType === 'probability' ? 'predict-probabilities' : 'predict';
-      const response = await axios.post(`${backendUrl}/${endpoint}`, {
+      const endpoint = 'predict-probabilities';
+      const requestData = {
         model_name: formData.modelName, // Use the specified model name
-        features: {
-          Type: formData.type,
-          'Air temperature [K]': parseFloat(formData.airTemperature),
-          'Process temperature [K]': parseFloat(formData.processTemperature),
-          'Rotational speed [rpm]': parseInt(formData.rotationalSpeed, 10),
-          'Torque [Nm]': parseFloat(formData.torque),
-          'Tool wear [min]': parseInt(formData.toolWear, 10)
-        }
-      });
+        data: [ // Wrap features inside an array
+          {
+            Type: formData.type,
+            'Air temperature [K]': parseFloat(formData.airTemperature),
+            'Process temperature [K]': parseFloat(formData.processTemperature),
+            'Rotational speed [rpm]': parseInt(formData.rotationalSpeed, 10),
+            'Torque [Nm]': parseFloat(formData.torque),
+            'Tool wear [min]': parseInt(formData.toolWear, 10)
+          }
+        ]
+      };
+      const response = await axios.post(`${backendUrl}/${endpoint}`, requestData);
       setResult(response.data);
+      setProbabilityResult(response.data.probabilities[0]); // Set probability result
     } catch (error) {
       console.error('Error predicting model performance:', error);
-      setError('There was an error processing your request. Please try again.');
+      const errorMessage = error.response && error.response.data ? JSON.stringify(error.response.data) : error.message;
+      setError(`There was an error processing your request: ${errorMessage}`);
     } finally {
       setLoading(false);
     }
@@ -150,19 +166,22 @@ const MonitorForm = ({ setResult }) => {
             ))}
           </select>
         </div>
-        <div className="form-group">
-          <label htmlFor="resultType">Result Type:</label>
-          <select id="resultType" name="resultType" value={formData.resultType} onChange={handleChange}>
-            <option value="binary">Binary</option>
-            <option value="probability">Probability</option>
-          </select>
-        </div>
         <button type="submit" className="submit-button" disabled={loading}>
           {loading ? 'Submitting...' : 'Submit'}
         </button>
       </form>
       {loading && <div className="spinner"></div>}
       {error && <p className="error-message">{error}</p>}
+      {probabilityResult && (
+        <div className="probability-result">
+          <h3>Probability Result:</h3>
+          <ul>
+            {classNames.map((className, index) => (
+              <li key={className}>{className}: {probabilityResult[index].toFixed(4)}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

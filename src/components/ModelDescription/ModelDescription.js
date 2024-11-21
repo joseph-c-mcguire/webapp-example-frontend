@@ -7,16 +7,6 @@ const ModelDescription = () => {
       <h2>Model Descriptions</h2>
       <ul>
         <li>
-          <strong>Logistic Regression:</strong> 
-          A statistical model that uses a logistic function to model a binary dependent variable. 
-          <ul>
-            <li>Supports probability predictions: Yes</li>
-            <li>Supports feature importance: Yes (coefficients)</li>
-            <li>Supports multi-class predictions: Yes (using one-vs-rest or multinomial)</li>
-            <li>Reference: <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html" target="_blank" rel="noopener noreferrer">Sklearn Logistic Regression</a></li>
-          </ul>
-        </li>
-        <li>
           <strong>Support Vector Machines (SVM):</strong> 
           A supervised learning model that analyzes data for classification and regression analysis.
           <ul>
