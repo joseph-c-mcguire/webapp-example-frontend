@@ -7,6 +7,7 @@ import Results from './components/Results/Results';
 import DataDescription from './components/DataDescription/DataDescription';
 import InteractiveDashboard from './components/InteractiveDashboard/InteractiveDashboard';
 import DiagnosticPlots from './components/DiagnosticPlots/DiagnosticPlots';
+import ModelDescription from './components/ModelDescription/ModelDescription'; // Import the new component
 import './App.css'; // Import the CSS file
 import './components/InteractiveDashboard/InteractiveDashboard.css'; // Import the new CSS file
 import './components/DiagnosticPlots/DiagnosticPlots.css'; // Import the new CSS file
@@ -21,12 +22,6 @@ const App = () => {
     setProbabilities([]);
   };
 
-  // Example function to simulate setting probabilities
-  const simulateProbabilities = () => {
-    const exampleProbabilities = [0.1, 0.4, 0.6, 0.8, 0.9];
-    console.log('Setting probabilities:', exampleProbabilities); // Log the example probabilities
-    setProbabilities(exampleProbabilities); // Example probabilities
-  };
 
   useEffect(() => {
     // Fetch data from the backend
@@ -46,6 +41,7 @@ const App = () => {
         <div className="main-content">
           <DataDescription />
           <InteractiveDashboard data={data} />
+          <ModelDescription /> {/* Add the new component here */}
           <div className="content-column"> {/* Change to column layout */}
             <MonitorForm setResult={setResult} />
             <Results result={result} handleNewEntry={handleNewEntry} />
