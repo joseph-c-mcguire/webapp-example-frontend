@@ -1,10 +1,9 @@
 import React from 'react';
-import { render, screen, act } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Footer from './Footer';
 
 test('renders Footer component', () => {
-  act(() => {
-    render(<Footer />);
-  });
-  expect(screen.getByText(/© 2023 Predictive Maintenance System/i)).toBeInTheDocument();
+  render(<Footer />);
+  expect(screen.getByText(/© 2024 Sample Predictive Maintenance System/i)).toBeInTheDocument();
+  expect(screen.getByText(/Developed by Joseph McGuire/i)).toBeInTheDocument();
 });

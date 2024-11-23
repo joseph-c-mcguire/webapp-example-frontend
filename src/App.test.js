@@ -1,50 +1,49 @@
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
-import axios from 'axios';
+import React from 'react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import App from './App';
+import axios from 'axios';
 
-// Mock axios
 jest.mock('axios');
 
-test('renders Predictive Maintenance System header', () => {
+test('renders App component', () => {
   render(<App />);
-  const headerElement = screen.getByRole('heading', { name: /Predictive Maintenance System/i });
-  expect(headerElement).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: /Predictive Maintenance System/i })).toBeInTheDocument(); // Use getByRole for specific query
+  expect(screen.getByText(/Welcome!/i)).toBeInTheDocument();
 });
 
-test('renders DataDescription component', () => {
+test('fetches data from backend and passes it to InteractiveDashboard', async () => {
+  const mockData = [{ id: 1, name: 'Sample Data' }];
+  axios.get.mockResolvedValue({ data: mockData });
+
   render(<App />);
-  const dataDescriptionElement = screen.getByText(/About Dataset/i);
-  expect(dataDescriptionElement).toBeInTheDocument();
+
+  await waitFor(() => expect(axios.get).toHaveBeenCalledWith(`${process.env.REACT_APP_BACKEND_URL}/data`));
+  await waitFor(() => expect(screen.getByText(/Sample Data/i)).toBeInTheDocument());
 });
 
-test('submits the form and displays results', async () => {
-  // Mock the response from the backend
-  axios.post.mockResolvedValue({
-    data: {
-      prediction: 'No Failure',
-      drift_detected: false,
-      metrics: {
-        accuracy: 0.95,
-        precision: 0.96,
-        recall: 0.94,
-        f1_score: 0.95
-      }
-    }
-  });
+test('system test for entire application flow', async () => {
+  const mockData = [{ id: 1, name: 'Sample Data' }];
+  axios.get.mockResolvedValue({ data: mockData });
 
-  await act(async () => {
-    render(<App />);
-    fireEvent.change(screen.getByLabelText(/Type/i), { target: { value: 'M' } });
-    fireEvent.change(screen.getByLabelText(/Air Temperature \[K\]/i), { target: { value: '300' } });
-    fireEvent.change(screen.getByLabelText(/Process Temperature \[K\]/i), { target: { value: '310' } });
-    fireEvent.change(screen.getByLabelText(/Rotational Speed \[rpm\]/i), { target: { value: '1500' } });
-    fireEvent.change(screen.getByLabelText(/Torque \[Nm\]/i), { target: { value: '40' } });
-    fireEvent.change(screen.getByLabelText(/Tool Wear \[min\]/i), { target: { value: '10' } });
+  render(<App />);
 
-    fireEvent.click(screen.getByText(/Submit/i));
-  });
+  // Verify initial render
+  expect(screen.getByRole('heading', { name: /Predictive Maintenance System/i })).toBeInTheDocument();
+  expect(screen.getByText(/Welcome!/i)).toBeInTheDocument();
 
-  await waitFor(() => {
-    expect(screen.getByText(/Predicted Class/i)).toBeInTheDocument();
-  });
+  // Navigate to EDA page
+  fireEvent.click(screen.getByText((content, element) => element.tagName.toLowerCase() === 'a' && /Data Analysis Dashboard/i.test(content)));
+  await waitFor(() => expect(screen.getByText(/Interactive Data Analysis/i)).toBeInTheDocument());
+
+  // Navigate to Model Description page
+  fireEvent.click(screen.getByText((content, element) => element.tagName.toLowerCase() === 'a' && /Model Description/i.test(content)));
+  await waitFor(() => expect(screen.getByText(/Model Descriptions/i)).toBeInTheDocument());
+
+  // Navigate to Model Querying page
+  fireEvent.click(screen.getByText((content, element) => element.tagName.toLowerCase() === 'a' && /Model Querying/i.test(content)));
+  await waitFor(() => expect(screen.getByText(/Submit/i)).toBeInTheDocument());
+
+  // Navigate to Model Diagnostics page
+  fireEvent.click(screen.getByText((content, element) => element.tagName.toLowerCase() === 'a' && /Model Diagnostics/i.test(content)));
+  await waitFor(() => expect(screen.getByText(/Please select a model and class label to view the diagnostic plots./i)).toBeInTheDocument());
 });
