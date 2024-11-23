@@ -1,0 +1,8 @@
+
+pkg-config
+cairo
+pango
+libpng-dev
+libjpeg-dev
+libgif-dev
+librsvg2-dev

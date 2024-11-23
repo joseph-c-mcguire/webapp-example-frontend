@@ -1,0 +1,11 @@
+
+{
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "heroku-buildpack-apt"
+    }
+  ]
+}
