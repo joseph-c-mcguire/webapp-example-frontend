@@ -14,4 +14,4 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 ENV PORT=80
 EXPOSE $PORT
-ENTRYPOINT ["npm run serve"]
+ENTRYPOINT ["serve", "-s", "build"]

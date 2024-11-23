@@ -50,5 +50,8 @@
     "canvas": "^2.11.2",
     "jest-extended": "^4.0.2",
     "jest-canvas-mock": "^2.4.0"
+  },
+  "optionalDependencies": {
+    "canvas": "^2.11.2"
   }
 }
