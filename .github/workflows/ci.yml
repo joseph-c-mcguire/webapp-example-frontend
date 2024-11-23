@@ -28,15 +28,15 @@ jobs:
       run: npm test -- --coverage
 
     - name: Publish coverage report
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: coverage-report
         path: coverage
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v4
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        files: ./coverage/**/lcov.info
-        flags: unittests
-        name: codecov-umbrella
+    
+    
+    
