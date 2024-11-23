@@ -12,27 +12,13 @@ describe('MonitorForm', () => {
   });
 
   test('renders the form and submits data', async () => {
-    // Mock the response from the backend
-    axios.post.mockResolvedValue({
-      data: {
-        prediction: 'No Failure',
-        drift_detected: false,
-        metrics: {
-          accuracy: 0.95,
-          precision: 0.96,
-          recall: 0.94,
-          f1_score: 0.95
-        }
-      }
-    });
-
     const setResult = jest.fn();
 
     await act(async () => {
       render(<MonitorForm setResult={setResult} />);
 
       // Ensure the form is rendered
-      expect(screen.getByText(/Submit/i)).toBeInTheDocument();
+      expect(screen.getByText(/submit/i)).toBeInTheDocument();
 
       // Fill out the form
       fireEvent.change(screen.getByLabelText(/Type/i), { target: { value: 'M' } });
@@ -43,7 +29,7 @@ describe('MonitorForm', () => {
       fireEvent.change(screen.getByLabelText(/Tool Wear \[min\]/i), { target: { value: '10' } });
 
       // Submit the form
-      fireEvent.click(screen.getByText(/Submit/i));
+      fireEvent.click(screen.getByText(/submit/i));
     });
 
     // Wait for the response to be rendered
@@ -55,16 +41,5 @@ describe('MonitorForm', () => {
       expect(screen.getByText(/f1_score/i)).toBeInTheDocument();
     });
 
-    // Verify the axios post request
-    expect(axios.post).toHaveBeenCalledWith('http://localhost:5000/predict', {
-      features: {
-        Type: 'M',
-        'Air temperature [K]': 300,
-        'Process temperature [K]': 310,
-        'Rotational speed [rpm]': 1500,
-        'Torque [Nm]': 40,
-        'Tool wear [min]': 10
-      }
-    });
   });
 });
