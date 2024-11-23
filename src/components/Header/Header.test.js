@@ -24,3 +24,7 @@ test('toggles menu on hamburger button click', () => {
   fireEvent.click(hamburgerButton);
   expect(screen.getByRole('navigation')).not.toHaveClass('open');
 });
+
+afterEach(() => {
+  jest.clearAllMocks();
+});

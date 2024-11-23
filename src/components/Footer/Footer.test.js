@@ -7,3 +7,7 @@ test('renders Footer component', () => {
   expect(screen.getByText(/© 2024 Sample Predictive Maintenance System/i)).toBeInTheDocument();
   expect(screen.getByText(/Developed by Joseph McGuire/i)).toBeInTheDocument();
 });
+
+afterEach(() => {
+  jest.clearAllMocks();
+});

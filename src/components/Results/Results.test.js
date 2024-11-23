@@ -2,6 +2,10 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Results from './Results';
 
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
 test('renders Results component with no results', () => {
   render(<Results result={null} handleNewEntry={() => {}} />);
   expect(screen.getByText(/No results to display/i)).toBeInTheDocument();

@@ -24,7 +24,8 @@ const App = () => {
 
   useEffect(() => {
     // Fetch data from the backend
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/data`)
+    const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://webapp-example-backend-6b9cff025ec9.herokuapp.com';
+    fetch(`${backendUrl}/data`)
       .then(response => response.json())
       .then(data => {
         console.log('Fetched data:', data);
@@ -34,7 +35,7 @@ const App = () => {
   }, []);
 
   return (
-    <Router>
+    <Router future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
       <div className="app-container">
         <Header />
         <div className="main-content">

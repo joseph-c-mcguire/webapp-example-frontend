@@ -12,3 +12,7 @@ test('renders ModelDescription component', () => {
   expect(screen.getByText((content, element) => element.tagName.toLowerCase() === 'strong' && /Random Forest/i.test(content))).toBeInTheDocument(); // Use custom matcher for specific query
   expect(screen.getByText((content, element) => element.tagName.toLowerCase() === 'strong' && /Decision Tree/i.test(content))).toBeInTheDocument(); // Use custom matcher for specific query
 });
+
+afterEach(() => {
+  jest.clearAllMocks();
+});

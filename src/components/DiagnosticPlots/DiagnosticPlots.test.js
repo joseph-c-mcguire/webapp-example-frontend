@@ -25,3 +25,7 @@ test('renders DiagnosticPlots component', async () => {
 
   expect(screen.getByText(/Please select a model and class label to view the diagnostic plots./i)).toBeInTheDocument();
 });
+
+afterAll(() => {
+  jest.restoreAllMocks();
+});

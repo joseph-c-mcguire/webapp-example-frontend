@@ -7,3 +7,7 @@ test('renders DataDescription component', () => {
   expect(screen.getByText(/About the Dataset/i)).toBeInTheDocument();
   expect(screen.getByText(/Acknowledgements/i)).toBeInTheDocument();
 });
+
+afterEach(() => {
+  jest.clearAllMocks();
+});

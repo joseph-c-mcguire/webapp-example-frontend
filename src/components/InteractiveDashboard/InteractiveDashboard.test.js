@@ -6,3 +6,7 @@ test('renders InteractiveDashboard component', () => {
   render(<InteractiveDashboard />);
   expect(screen.getByText(/Interactive Data Analysis/i)).toBeInTheDocument();
 });
+
+afterEach(() => {
+  jest.clearAllMocks();
+});

@@ -1,10 +1,11 @@
-// jest-dom adds custom jest matchers for asserting on DOM nodes.
-// allows you to do things like:
-// expect(element).toHaveTextContent(/react/i)
-// learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
-
-// src/setupTests.js
+import 'jest-extended'; // Add jest-extended matchers
+import 'jest-canvas-mock';
 
 // Mock for window.URL.createObjectURL
-window.URL.createObjectURL = function() {};
+window.URL.createObjectURL = jest.fn();
+
+// Teardown function to clean up after tests
+afterAll(() => {
+  window.URL.createObjectURL.mockRestore();
+});

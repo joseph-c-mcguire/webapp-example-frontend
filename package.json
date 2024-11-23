@@ -22,7 +22,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "serve": "serve -s build"
+    "serve": "serve -s build",
+    "coverage": "react-scripts test --coverage --watchAll=false"
   },
   "jest": {
     "moduleNameMapper": {
@@ -45,6 +46,9 @@
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.25.9",
-    "babel-jest": "^29.7.0"
+    "babel-jest": "^29.7.0",
+    "canvas": "^2.11.2",
+    "jest-extended": "^4.0.2",
+    "jest-canvas-mock": "^2.4.0"
   }
 }
