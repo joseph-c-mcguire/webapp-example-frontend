@@ -53,5 +53,9 @@
   },
   "optionalDependencies": {
     "canvas": "^2.11.2"
+  },
+  "engines": {
+    "node": "16.x",
+    "npm": "7.x"
   }
 }
