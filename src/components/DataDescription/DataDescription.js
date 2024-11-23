@@ -3,11 +3,13 @@ import './DataDescription.css'; // Ensure the CSS file is imported
 
 const DataDescription = () => {
   return (
-    <div className="card">
       <div className="data-description-container">
         <h2>Description</h2>
         <p>
-          The following is an example of a React site with a Python Flask backend.
+          Welcome! This is a React website built to deploy a scikit-learn classification model trained on a University of California, Irvine dataset.
+          The back-end and deployment of the model are through a Flask backend.
+        </p>
+        <p>
           The site is a predictive maintenance classification model that predicts whether a machine will fail based on the input features.
           This is based on the <a href="https://archive.ics.uci.edu/ml/datasets/AI4I+2020+Predictive+Maintenance+Dataset" target="_blank" rel="noopener noreferrer">UCI Machine Predictive Maintenance Classification Dataset</a>.
         </p>
@@ -50,7 +52,6 @@ const DataDescription = () => {
           <li>Kaggle: <a href="https://www.kaggle.com/datasets/shivamb/machine-predictive-maintenance-classification" target="_blank" rel="noopener noreferrer">Kaggle Dataset</a></li>
         </ul>
       </div>
-    </div>
   );
 };
 
