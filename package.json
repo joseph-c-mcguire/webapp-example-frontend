@@ -14,15 +14,21 @@
     "react-plotly.js": "^2.6.0",
     "react-router-dom": "^6.27.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4",
     "serve": "14.2.4",
-    "simple-statistics": "^7.7.4"
+    "simple-statistics": "^7.7.4",
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "serve": "serve -s build"
+    "serve": "serve -s build",
+    "coverage": "react-scripts test --coverage --watchAll=false"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^axios$": "axios/dist/node/axios.cjs"
+    }
   },
   "browserslist": {
     "production": [
@@ -35,5 +41,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.25.9",
+    "babel-jest": "^29.7.0",
+    "canvas": "^2.11.2",
+    "jest-extended": "^4.0.2",
+    "jest-canvas-mock": "^2.4.0"
   }
 }
