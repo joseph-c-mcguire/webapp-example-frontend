@@ -7,16 +7,6 @@ const ModelDescription = () => {
       <h2>Model Descriptions</h2>
       <ul>
         <li>
-          <strong>Support Vector Machines (SVM):</strong> 
-          A supervised learning model that analyzes data for classification and regression analysis.
-          <ul>
-            <li>Supports probability predictions: Yes (with probability=True)</li>
-            <li>Supports feature importance: No (but can use coefficients for linear SVM)</li>
-            <li>Supports multi-class predictions: Yes (using one-vs-rest or one-vs-one)</li>
-            <li>Reference: <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html" target="_blank" rel="noopener noreferrer">Sklearn SVM</a></li>
-          </ul>
-        </li>
-        <li>
           <strong>Gradient Boosting:</strong> 
           A machine learning technique for regression and classification problems, which produces a prediction model in the form of an ensemble of weak prediction models, typically decision trees.
           <ul>
