@@ -31,6 +31,9 @@ describe('MonitorForm', () => {
     await act(async () => {
       render(<MonitorForm setResult={setResult} />);
 
+      // Ensure the form is rendered
+      expect(screen.getByText(/Submit/i)).toBeInTheDocument();
+
       // Fill out the form
       fireEvent.change(screen.getByLabelText(/Type/i), { target: { value: 'M' } });
       fireEvent.change(screen.getByLabelText(/Air Temperature \[K\]/i), { target: { value: '300' } });
