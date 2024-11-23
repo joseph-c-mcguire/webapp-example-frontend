@@ -35,3 +35,90 @@ h1 {
   font-size: 36px;
   font-weight: 700;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #0077b6; /* blue */
+  color: white;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease-in-out;
+}
+
+.header:hover {
+  background-color: #005f8a; /* darker blue */
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+}
+
+.hamburger {
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 3px 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-menu {
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #333;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  padding: 10px 0;
+  transition: max-height 0.3s ease-in-out;
+  overflow: hidden;
+  max-height: 0;
+}
+
+.nav-menu.open {
+  display: flex;
+  max-height: 300px; /* Adjust as needed */
+}
+
+.nav-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.nav-menu li {
+  width: 100%;
+}
+
+.nav-menu li a {
+  display: block;
+  padding: 10px 20px;
+  color: white;
+  text-decoration: none;
+}
+
+.nav-menu li a:hover {
+  background-color: #575757;
+}

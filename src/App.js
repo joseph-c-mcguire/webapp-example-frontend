@@ -7,10 +7,10 @@ import Results from './components/Results/Results';
 import DataDescription from './components/DataDescription/DataDescription';
 import InteractiveDashboard from './components/InteractiveDashboard/InteractiveDashboard';
 import DiagnosticPlots from './components/DiagnosticPlots/DiagnosticPlots';
-import ModelDescription from './components/ModelDescription/ModelDescription'; // Import the new component
-import './App.css'; // Import the CSS file
-import './components/InteractiveDashboard/InteractiveDashboard.css'; // Import the new CSS file
-import './components/DiagnosticPlots/DiagnosticPlots.css'; // Import the new CSS file
+import ModelDescription from './components/ModelDescription/ModelDescription';
+import './App.css';
+import './components/InteractiveDashboard/InteractiveDashboard.css';
+import './components/DiagnosticPlots/DiagnosticPlots.css';
 
 const App = () => {
   const [result, setResult] = useState(null);
@@ -21,7 +21,6 @@ const App = () => {
     setResult(null);
     setProbabilities([]);
   };
-
 
   useEffect(() => {
     // Fetch data from the backend
@@ -39,14 +38,18 @@ const App = () => {
       <div className="app-container">
         <Header />
         <div className="main-content">
-          <DataDescription />
-          <InteractiveDashboard data={data} />
-          <ModelDescription /> {/* Add the new component here */}
-          <div className="content-column"> {/* Change to column layout */}
-            <MonitorForm setResult={setResult} />
-            <Results result={result} handleNewEntry={handleNewEntry} />
-          </div>
-          <DiagnosticPlots data={data} />
+          <Routes>
+            <Route path="/" element={<DataDescription />} />
+            <Route path="/eda" element={<InteractiveDashboard data={data} />} />
+            <Route path="/model-description" element={<ModelDescription />} />
+            <Route path="/model-querying" element={
+              <div className="content-column">
+                <MonitorForm setResult={setResult} />
+                <Results result={result} handleNewEntry={handleNewEntry} />
+              </div>
+            } />
+            <Route path="/model-diagnostics" element={<DiagnosticPlots data={data} />} />
+          </Routes>
         </div>
         <Footer />
       </div>
