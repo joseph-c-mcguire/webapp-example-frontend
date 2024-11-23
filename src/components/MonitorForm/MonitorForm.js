@@ -166,7 +166,7 @@ const MonitorForm = ({ setResult }) => {
             ))}
           </select>
         </div>
-        <button type="submit" className="submit-button" disabled={loading}>
+        <button type="submit" className="submit-button" disabled={loading} role="button" name="submit">
           {loading ? 'Submitting...' : 'Submit'}
         </button>
       </form>

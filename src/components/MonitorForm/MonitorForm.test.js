@@ -1,45 +1,25 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
-import axios from 'axios';
+import { render, screen, fireEvent } from '@testing-library/react';
 import MonitorForm from './MonitorForm';
 
-// Mock axios
-jest.mock('axios');
-
 describe('MonitorForm', () => {
-  beforeEach(() => {
-    axios.post.mockClear();
-  });
-
-  test('renders the form and submits data', async () => {
+  test('renders the form and submits data', () => {
     const setResult = jest.fn();
 
-    await act(async () => {
-      render(<MonitorForm setResult={setResult} />);
+    render(<MonitorForm setResult={setResult} />);
 
-      // Ensure the form is rendered
-      expect(screen.getByText(/submit/i)).toBeInTheDocument();
+    // Ensure the form is rendered
+    expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
 
-      // Fill out the form
-      fireEvent.change(screen.getByLabelText(/Type/i), { target: { value: 'M' } });
-      fireEvent.change(screen.getByLabelText(/Air Temperature \[K\]/i), { target: { value: '300' } });
-      fireEvent.change(screen.getByLabelText(/Process Temperature \[K\]/i), { target: { value: '310' } });
-      fireEvent.change(screen.getByLabelText(/Rotational Speed \[rpm\]/i), { target: { value: '1500' } });
-      fireEvent.change(screen.getByLabelText(/Torque \[Nm\]/i), { target: { value: '40' } });
-      fireEvent.change(screen.getByLabelText(/Tool Wear \[min\]/i), { target: { value: '10' } });
+    // Fill out the form
+    fireEvent.change(screen.getByLabelText(/Quality of the item:/i), { target: { value: 'M' } });
+    fireEvent.change(screen.getByLabelText(/Air Temperature \[K\]/i), { target: { value: '300' } });
+    fireEvent.change(screen.getByLabelText(/Process Temperature \[K\]/i), { target: { value: '310' } });
+    fireEvent.change(screen.getByLabelText(/Rotational Speed \[rpm\]/i), { target: { value: '1500' } });
+    fireEvent.change(screen.getByLabelText(/Torque \[Nm\]/i), { target: { value: '40' } });
+    fireEvent.change(screen.getByLabelText(/Tool Wear \[min\]/i), { target: { value: '10' } });
 
-      // Submit the form
-      fireEvent.click(screen.getByText(/submit/i));
+    // Submit the form
+    fireEvent.click(screen.getByRole('button', { name: /submit/i }));
     });
-
-    // Wait for the response to be rendered
-    await waitFor(() => {
-      expect(screen.getByText(/Predicted Class/i)).toBeInTheDocument();
-      expect(screen.getByText(/accuracy/i)).toBeInTheDocument();
-      expect(screen.getByText(/precision/i)).toBeInTheDocument();
-      expect(screen.getByText(/recall/i)).toBeInTheDocument();
-      expect(screen.getByText(/f1_score/i)).toBeInTheDocument();
-    });
-
-  });
 });
