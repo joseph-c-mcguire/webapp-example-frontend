@@ -51,16 +51,22 @@ const DiagnosticPlots = ({ data }) => {
       const url = process.env.REACT_APP_BACKEND_URL || 'https://webapp-example-backend-6b9cff025ec9.herokuapp.com';
       setLoading(true);
 
-      // Fetch confusion matrix from the backend without class_label
-      axios.post(`${url}/api/diagnostics/confusion-matrix`, { model_name: modelName }) // Remove class_label
+      // Fetch confusion matrix from the backend with class_label
+      axios.post(`${url}/api/diagnostics/confusion-matrix`, { 
+        model_name: modelName,
+        class_label: selectedClass // Add class_label
+      }) // Remove class_label
         .then(response => {
           setConfusionMatrix(response.data.confusion_matrix);
           console.log('Confusion Matrix:', response.data.confusion_matrix); // Log the confusion matrix
         })
         .catch(error => console.error('Error fetching confusion matrix:', error));
 
-      // Fetch ROC curve data from the backend
-      axios.post(`${url}/api/diagnostics/roc-curve`, { model_name: modelName }) // Remove class_label if not needed
+      // Fetch ROC curve data from the backend with class_label
+      axios.post(`${url}/api/diagnostics/roc-curve`, { 
+        model_name: modelName,
+        class_label: selectedClass // Add class_label
+      }) // Remove class_label if not needed
         .then(response => {
           setRocCurve(response.data);
         })
@@ -88,7 +94,7 @@ const DiagnosticPlots = ({ data }) => {
           setLoading(false);
         });
     }
-  }, [data, modelName]); // Remove classLabel from dependencies
+  }, [data, modelName, selectedClass]); // Add selectedClass to dependencies
 
   // 1. Verify and Log probabilities Structure
   useEffect(() => {
