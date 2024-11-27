@@ -55,10 +55,12 @@ const DiagnosticPlots = ({ data }) => {
       axios.post(`${url}/api/diagnostics/confusion-matrix`, { 
         model_name: modelName,
         class_label: selectedClass // Add class_label
-      }) // Remove class_label
+      })
         .then(response => {
           setConfusionMatrix(response.data.confusion_matrix);
-          console.log('Confusion Matrix:', response.data.confusion_matrix); // Log the confusion matrix
+          if (process.env.NODE_ENV !== 'test') {
+            console.log('Confusion Matrix:', response.data.confusion_matrix); // Log in non-test environments
+          }
         })
         .catch(error => console.error('Error fetching confusion matrix:', error));
 
@@ -66,9 +68,12 @@ const DiagnosticPlots = ({ data }) => {
       axios.post(`${url}/api/diagnostics/roc-curve`, { 
         model_name: modelName,
         class_label: selectedClass // Add class_label
-      }) // Remove class_label if not needed
+      })
         .then(response => {
           setRocCurve(response.data);
+          if (process.env.NODE_ENV !== 'test') {
+            console.log('ROC Curve:', response.data); // Log in non-test environments
+          }
         })
         .catch(error => console.error('Error fetching ROC curve data:', error));
 
@@ -83,7 +88,9 @@ const DiagnosticPlots = ({ data }) => {
       // Fetch prediction probabilities from the backend
       axios.post(`${url}/api/predict-probabilities`, { data, model_name: modelName }) // Use url with default
         .then(response => {
-          console.log('Prediction Probabilities:', response.data.probabilities); // Log the probabilities
+          if (process.env.NODE_ENV !== 'test') {
+            console.log('Prediction Probabilities:', response.data.probabilities); // Log in non-test environments
+          }
           setProbabilities(response.data.probabilities || []);
         })
         .catch(error => {
@@ -98,8 +105,10 @@ const DiagnosticPlots = ({ data }) => {
 
   // 1. Verify and Log probabilities Structure
   useEffect(() => {
-    console.log('Current Selected Class:', selectedClass);
-    console.log('Probability Results:', probabilities);
+    if (process.env.NODE_ENV !== 'test') {
+      console.log('Current Selected Class:', selectedClass);
+      console.log('Probability Results:', probabilities);
+    }
   }, [probabilities, selectedClass]);
 
   return (
@@ -252,7 +261,7 @@ const DiagnosticPlots = ({ data }) => {
               )}
             </>
           ) : (
-            <div>Please select a model to view the diagnostic plots.</div>
+            <div>Please select a model and class label to view the diagnostic plots.</div>
           )
         )}
       </div>
