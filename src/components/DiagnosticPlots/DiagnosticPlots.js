@@ -86,7 +86,7 @@ const DiagnosticPlots = ({ data }) => {
         .catch(error => console.error('Error fetching feature importance data:', error));
 
       // Fetch prediction probabilities from the backend
-      axios.post(`${url}/api/predict-probabilities`, { data, model_name: modelName }) // Use url with default
+      axios.post(`${url}/predict-probabilities`, { data, model_name: modelName }) // Use url with default
         .then(response => {
           if (process.env.NODE_ENV !== 'test') {
             console.log('Prediction Probabilities:', response.data.probabilities); // Log in non-test environments
