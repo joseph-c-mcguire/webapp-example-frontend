@@ -26,7 +26,7 @@ const MonitorForm = ({ setResult }) => {
     console.log("Backend URL from env: ", url); // Log the backend URL for debugging
 
     // Fetch available models from the backend
-    axios.get(`${url}/available-models`)
+    axios.get(`${url}/api/helper/available-models`)
       .then(response => {
         setAvailableModels(response.data.available_models);
       })
@@ -35,7 +35,7 @@ const MonitorForm = ({ setResult }) => {
       });
 
     // Fetch class names from the backend
-    axios.get(`${url}/class-names`)
+    axios.get(`${url}/api/helper/class-names`)
       .then(response => {
         setClassNames(response.data.class_names);
       })

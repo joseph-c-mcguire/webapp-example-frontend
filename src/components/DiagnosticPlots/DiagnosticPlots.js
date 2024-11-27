@@ -20,7 +20,7 @@ const DiagnosticPlots = ({ data }) => {
     const url = process.env.REACT_APP_BACKEND_URL;
 
     // Fetch available models from the backend
-    axios.get(`${url}/available-models`)
+    axios.get(`${url}/api/helper/available-models`)
       .then(response => {
         setAvailableModels(response.data.available_models);
       })
@@ -29,7 +29,7 @@ const DiagnosticPlots = ({ data }) => {
       });
 
     // Fetch class names from the backend
-    axios.get(`${url}/class-names`)
+    axios.get(`${url}/api/helper/class-names`)
       .then(response => {
         setClassNames(response.data.class_names);
       })
@@ -44,7 +44,7 @@ const DiagnosticPlots = ({ data }) => {
       setLoading(true);
 
       // Fetch confusion matrix from the backend
-      axios.post(`${url}/confusion-matrix`, { data, model_name: modelName, class_label: classLabel })
+      axios.post(`${url}/api/diagnostics/confusion-matrix`, { data, model_name: modelName, class_label: classLabel })
         .then(response => {
           setConfusionMatrix(response.data.confusion_matrix);
           setClassNames(response.data.labels); // Update class names from the response
@@ -52,21 +52,21 @@ const DiagnosticPlots = ({ data }) => {
         .catch(error => console.error('Error fetching confusion matrix:', error));
 
       // Fetch ROC curve data from the backend
-      axios.post(`${url}/roc-curve`, { data, model_name: modelName, class_label: classLabel })
+      axios.post(`${url}/api/diagnostics/roc-curve`, { data, model_name: modelName, class_label: classLabel })
         .then(response => {
           setRocCurve(response.data);
         })
         .catch(error => console.error('Error fetching ROC curve data:', error));
 
       // Fetch feature importance data from the backend
-      axios.get(`${url}/feature-importance`, { params: { model_name: modelName } })
+      axios.get(`${url}/api/diagnostics/feature-importance`, { params: { model_name: modelName } })
         .then(response => {
           setFeatureImportance(response.data.feature_importance);
         })
         .catch(error => console.error('Error fetching feature importance data:', error));
 
       // Fetch feature names from the backend
-      axios.get(`${url}/feature-names`)
+      axios.get(`${url}/api/diagnostics/feature-names`)
         .then(response => {
           setFeatureNames(response.data.feature_names);
         })
@@ -154,8 +154,8 @@ const DiagnosticPlots = ({ data }) => {
               <Plot
                 data={[
                   {
-                    x: featureNames.length ? featureNames : ['Feature 1', 'Feature 2', 'Feature 3'],
-                    y: featureNames.length ? featureNames.map(name => featureImportance[name] || 0) : [0, 0, 0],
+                    x: Object.keys(featureImportance), // Use keys of feature importance for x-axis
+                    y: Object.keys(featureImportance).map(name => featureImportance[name] || 0), // Use values for y-axis
                     type: 'bar',
                     marker: { color: 'orange' },
                   },
@@ -214,7 +214,7 @@ const DiagnosticPlots = ({ data }) => {
           )
         )}
       </div>
-      <Footer /> {/* Add Footer */}
+      <Footer />
     </>
   );
 };
