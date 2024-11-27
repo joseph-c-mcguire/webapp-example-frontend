@@ -21,7 +21,7 @@ const MonitorForm = ({ setResult }) => {
   const [classNames, setClassNames] = useState([]); // Add state for class names
 
   useEffect(() => {
-    const url = process.env.REACT_APP_BACKEND_URL;
+    const url = process.env.REACT_APP_BACKEND_URL || 'https://webapp-example-backend-6b9cff025ec9.herokuapp.com';
     setBackendUrl(url);
     console.log("Backend URL from env: ", url); // Log the backend URL for debugging
 
@@ -29,6 +29,7 @@ const MonitorForm = ({ setResult }) => {
     axios.get(`${url}/api/helper/available-models`)
       .then(response => {
         setAvailableModels(response.data.available_models);
+        console.log('Available Models:', response.data.available_models); // Added log
       })
       .catch(error => {
         console.error('Error fetching available models:', error);
@@ -38,6 +39,7 @@ const MonitorForm = ({ setResult }) => {
     axios.get(`${url}/api/helper/class-names`)
       .then(response => {
         setClassNames(response.data.class_names);
+        console.log('Class Names:', response.data.class_names); // Added log
       })
       .catch(error => {
         console.error('Error fetching class names:', error);
@@ -69,7 +71,7 @@ const MonitorForm = ({ setResult }) => {
     setLoading(true);
     setError(null);
     try {
-      const endpoint = 'predict-probabilities';
+      const endpoint = '/predict-probabilities'; // Added 'api/' prefix
       const requestData = {
         model_name: formData.modelName, // Use the specified model name
         data: [ // Wrap features inside an array
@@ -85,7 +87,7 @@ const MonitorForm = ({ setResult }) => {
       };
       const response = await axios.post(`${backendUrl}/${endpoint}`, requestData);
       setResult(response.data);
-      setProbabilityResult(response.data.probabilities[0]); // Set probability result
+      setProbabilityResult(response.data.probabilities[0] || []); // Ensure probabilities are defined
     } catch (error) {
       console.error('Error predicting model performance:', error);
       const errorMessage = error.response && error.response.data ? JSON.stringify(error.response.data) : error.message;
@@ -172,12 +174,12 @@ const MonitorForm = ({ setResult }) => {
       </form>
       {loading && <div className="spinner"></div>}
       {error && <p className="error-message">{error}</p>}
-      {probabilityResult && (
+      {probabilityResult && classNames.length > 0 && (
         <div className="probability-result">
           <h3>Probability Result:</h3>
           <ul>
             {classNames.map((className, index) => (
-              <li key={className}>{className}: {probabilityResult[index].toFixed(4)}</li>
+              <li key={className}>{className}: {probabilityResult[index]?.toFixed(4)}</li>
             ))}
           </ul>
         </div>

@@ -25,7 +25,8 @@ const App = () => {
   useEffect(() => {
     // Fetch data from the backend
     const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://webapp-example-backend-6b9cff025ec9.herokuapp.com';
-    fetch(`${backendUrl}/api/helper/data`)
+    const formattedBackendUrl = backendUrl.endsWith('/') ? backendUrl.slice(0, -1) : backendUrl; // Remove trailing slash if present
+    fetch(`${formattedBackendUrl}/api/helper/data`) // Ensure single slash
       .then(response => response.json())
       .then(data => {
         console.log('Fetched data:', data);

@@ -16,9 +16,10 @@ const InteractiveDashboard = () => {
 
 	// Load data from API
 	useEffect(() => {
-		axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/helper/data`)
+		const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://webapp-example-backend-6b9cff025ec9.herokuapp.com';
+		axios.get(`${backendUrl}/api/helper/data`) // Use backendUrl with default
 			.then(response => {
-				setData(response.data);
+				setData(response.data || []); // Ensure data is defined
 			})
 			.catch(error => {
 				console.error('Error fetching data:', error);
@@ -53,18 +54,18 @@ const InteractiveDashboard = () => {
 		setShowLinearFit(event.target.checked);
 	};
 
-	const uniqueCategories = [...new Set(data.map(d => d[colorVariable]))];
+	const uniqueCategories = [...new Set(data.map(d => d[colorVariable] || 'Unknown'))];
 	const categoryColors = uniqueCategories.map((_, index) => `hsl(${index * 360 / uniqueCategories.length}, 70%, 50%)`); // Generate unique colors
-	const categoryLabels = uniqueCategories.map(category => category.toString());
+	const categoryLabels = uniqueCategories.map(category => category.toString() || 'Unknown');
 	const fitColors = ['turquoise', 'pink']; // Colors for linear fits
 
 	const scatterData = {
-		x: data.map(d => d[xVariable]),
-		y: data.map(d => d[yVariable]),
+		x: data.map(d => d[xVariable] || 0),
+		y: data.map(d => d[yVariable] || 0),
 		type: 'scatter',
 		mode: 'markers',
 		marker: { 
-			color: data.map(d => uniqueCategories.indexOf(d[colorVariable])),
+			color: data.map(d => uniqueCategories.indexOf(d[colorVariable] || 'Unknown')),
 			colorscale: categoryColors.map((color, index) => [index / (uniqueCategories.length - 1), color]),
 			showscale: false, // Disable continuous color scale
 		},
