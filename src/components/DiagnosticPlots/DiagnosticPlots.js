@@ -144,7 +144,7 @@ const DiagnosticPlots = ({ data }) => {
         ) : (
           modelName ? ( // Remove classLabel condition
             <>
-              <h2>Confusion Matrix</h2>
+              {/* <h2>Confusion Matrix</h2>
               {confusionMatrix.length > 0 ? (
                 // Update the Plotly heatmap configuration
                 <Plot
@@ -187,7 +187,7 @@ const DiagnosticPlots = ({ data }) => {
                 />
               ) : (
                 <p>No confusion matrix data available.</p>
-              )}
+              )} */}
 
               <h2>Feature Importance</h2>
               <Plot
@@ -232,14 +232,14 @@ const DiagnosticPlots = ({ data }) => {
                   showlegend: true,
                 }}
               />
-              <h2>Prediction Probabilities</h2>
+              {/* <h2>Prediction Probabilities</h2>
               {probabilities.length > 0 && selectedClass ? (
                 <Plot
                   data={[
                     {
                       x: probabilities
                         .map(prob => {
-                          const value = prob[selectedClass];
+                          const value = prob;
                           if (value === undefined) {
                             console.warn(`Selected class "${selectedClass}" not found in probability object:`, prob);
                           }
@@ -258,7 +258,7 @@ const DiagnosticPlots = ({ data }) => {
                 />
               ) : (
                 <p>No prediction probabilities to display.</p>
-              )}
+              )} */}
             </>
           ) : (
             <div>Please select a model and class label to view the diagnostic plots.</div>
