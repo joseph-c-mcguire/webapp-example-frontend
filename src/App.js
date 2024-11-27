@@ -24,7 +24,7 @@ const App = () => {
 
   useEffect(() => {
     // Fetch data from the backend
-    const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://webapp-example-backend-6b9cff025ec9.herokuapp.com';
+    const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://webapp-example-backend-6b9cff025ec9.herokuapp.com/api';
     fetch(`${backendUrl}/data`)
       .then(response => response.json())
       .then(data => {

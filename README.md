@@ -1,5 +1,8 @@
 # Front-end for Predictive Maintenance System
 
+## Overview
+The Predictive Maintenance System is a web application designed to perform Exploratory Data Analysis (EDA) and model diagnostics on a predictive maintenance dataset. The frontend is built using React and communicates with a backend server to fetch and display data. The application allows users to interact with the model, query it with new inputs, and view performance metrics.
+
 ## Description
 This is the frontend for a web-app example, primarily built in React, the back-end displays a dataset obtained from Kaggle on synthetic data generated for predictive maintenance. The following app allows you do some basic Exploratory Data Analysis (EDA) and check out some model diagnostics such as querying the model with different new inputs, performance metrics.
 

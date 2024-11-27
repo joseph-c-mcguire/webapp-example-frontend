@@ -16,7 +16,7 @@ const InteractiveDashboard = () => {
 
 	// Load data from API
 	useEffect(() => {
-		axios.get(`${process.env.REACT_APP_BACKEND_URL}/data?model_name=exampleModel`)
+		axios.get(`${process.env.REACT_APP_BACKEND_URL}/data`)
 			.then(response => {
 				setData(response.data);
 			})
