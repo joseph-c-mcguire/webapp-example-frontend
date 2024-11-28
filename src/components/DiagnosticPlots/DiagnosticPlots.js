@@ -15,6 +15,7 @@ const DiagnosticPlots = ({ data }) => {
   const [probabilities, setProbabilities] = useState([]); // Add state for probabilities
   const [loading, setLoading] = useState(false); // Add state for loading
   const [selectedClass, setSelectedClass] = useState(''); // New state for selected class
+  const [numBins, setNumBins] = useState(10); // New state for number of bins
 
   useEffect(() => {
     const url = process.env.REACT_APP_BACKEND_URL || 'https://webapp-example-backend-6b9cff025ec9.herokuapp.com';
@@ -139,14 +140,28 @@ const DiagnosticPlots = ({ data }) => {
             </select>
           </div>
         )}
+        {/* Add Slider for Number of Bins */}
+        {probabilities.length > 0 && (
+          <div className="form-group">
+            <label htmlFor="numBins">Number of Bins:</label>
+            <input
+              type="range"
+              id="numBins"
+              min="1"
+              max="50"
+              value={numBins}
+              onChange={(e) => setNumBins(e.target.value)}
+            />
+            <span>{numBins}</span>
+          </div>
+        )}
         {loading ? (
           <div>Loading...</div>
         ) : (
           modelName ? ( // Remove classLabel condition
             <>
-              {/* <h2>Confusion Matrix</h2>
+              <h2>Confusion Matrix</h2>
               {confusionMatrix.length > 0 ? (
-                // Update the Plotly heatmap configuration
                 <Plot
                   data={[
                     {
@@ -156,14 +171,24 @@ const DiagnosticPlots = ({ data }) => {
                       showscale: true,
                       text: confusionMatrix.map(row => row.map(value => `Count: ${value}`)),
                       hoverinfo: 'text',
+                      zmin: Math.min(...confusionMatrix.flat()) || 0.1, // Avoid log(0)
+                      zmax: Math.max(...confusionMatrix.flat()),
+                      colorbar: {
+                        title: 'Count',
+                        tickvals: [1, 10, 100, 1000], // Example tick values for log scale
+                        ticktext: ['1', '10', '100', '1000'],
+                      },
+                      zsmooth: 'best',
+                      zauto: false,
+                      ztype: 'log', // Set z-axis to log scale
                     },
                   ]}
                   layout={{
                     title: 'Confusion Matrix',
                     annotations: confusionMatrix.flatMap((row, i) =>
                       row.map((value, j) => ({
-                        x: classNames[j],
-                        y: classNames[i],
+                        x: j,
+                        y: i,
                         text: value,
                         showarrow: false,
                         font: { color: 'white' },
@@ -187,7 +212,7 @@ const DiagnosticPlots = ({ data }) => {
                 />
               ) : (
                 <p>No confusion matrix data available.</p>
-              )} */}
+              )}
 
               <h2>Feature Importance</h2>
               <Plot
@@ -232,22 +257,23 @@ const DiagnosticPlots = ({ data }) => {
                   showlegend: true,
                 }}
               />
-              {/* <h2>Prediction Probabilities</h2>
               {probabilities.length > 0 && selectedClass ? (
                 <Plot
                   data={[
                     {
                       x: probabilities
                         .map(prob => {
-                          const value = prob;
+                          const value = prob[classNames.indexOf(selectedClass)];
                           if (value === undefined) {
                             console.warn(`Selected class "${selectedClass}" not found in probability object:`, prob);
+                            return null; // Return null if the class is not found
                           }
                           return value;
                         })
-                        .filter(val => typeof val === 'number' && !isNaN(val)),
+                        .filter(val => val !== null && typeof val === 'number' && !isNaN(val)), // Filter out null values
                       type: 'histogram',
                       marker: { color: 'green' },
+                      nbinsx: numBins, // Set number of bins
                     },
                   ]}
                   layout={{
@@ -258,7 +284,7 @@ const DiagnosticPlots = ({ data }) => {
                 />
               ) : (
                 <p>No prediction probabilities to display.</p>
-              )} */}
+              )}
             </>
           ) : (
             <div>Please select a model and class label to view the diagnostic plots.</div>
