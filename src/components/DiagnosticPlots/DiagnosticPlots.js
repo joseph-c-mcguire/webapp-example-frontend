@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import Plot from 'react-plotly.js';
 import axios from 'axios';
-import Header from '../Header/Header'; // Import Header
-import Footer from '../Footer/Footer'; // Import Footer
+import Header from '../Header/Header'; // Import Header component
+import Footer from '../Footer/Footer'; // Import Footer component
 
 const DiagnosticPlots = ({ data }) => {
-  const [confusionMatrix, setConfusionMatrix] = useState([]); // Initialize as empty array
-  const [rocCurve, setRocCurve] = useState({ fpr: [], tpr: [], roc_auc: 0 });
-  const [featureImportance, setFeatureImportance] = useState({});
-  const [featureNames, setFeatureNames] = useState([]);
-  const [modelName, setModelName] = useState(''); // Default to empty
-  const [availableModels, setAvailableModels] = useState([]); // Add state for available models
-  const [classNames, setClassNames] = useState([]); // Add state for class names
-  const [probabilities, setProbabilities] = useState([]); // Add state for probabilities
-  const [loading, setLoading] = useState(false); // Add state for loading
-  const [selectedClass, setSelectedClass] = useState(''); // New state for selected class
-  const [numBins, setNumBins] = useState(10); // New state for number of bins
+  // State variables
+  const [confusionMatrix, setConfusionMatrix] = useState([]); // Confusion matrix data
+  const [rocCurve, setRocCurve] = useState({ fpr: [], tpr: [], roc_auc: 0 }); // ROC curve data
+  const [featureImportance, setFeatureImportance] = useState({}); // Feature importance data
+  const [featureNames, setFeatureNames] = useState([]); // Feature names
+  const [modelName, setModelName] = useState(''); // Selected model name
+  const [availableModels, setAvailableModels] = useState([]); // List of available models
+  const [classNames, setClassNames] = useState([]); // List of class names
+  const [probabilities, setProbabilities] = useState([]); // Prediction probabilities
+  const [loading, setLoading] = useState(false); // Loading state
+  const [selectedClass, setSelectedClass] = useState(''); // Selected class for histogram
+  const [numBins, setNumBins] = useState(10); // Number of bins for histogram
 
+  // Fetch available models and class names on component mount
   useEffect(() => {
     const url = process.env.REACT_APP_BACKEND_URL || 'https://webapp-example-backend-6b9cff025ec9.herokuapp.com';
 
@@ -24,7 +26,7 @@ const DiagnosticPlots = ({ data }) => {
     axios.get(`${url}/api/helper/available-models`)
       .then(response => {
         setAvailableModels(response.data.available_models);
-        console.log('Available Models:', response.data.available_models); // Added log
+        console.log('Available Models:', response.data.available_models); // Log available models
       })
       .catch(error => {
         console.error('Error fetching available models:', error);
@@ -34,21 +36,23 @@ const DiagnosticPlots = ({ data }) => {
     axios.get(`${url}/api/helper/class-names`)
       .then(response => {
         setClassNames(response.data.class_names);
-        console.log('Class Names:', response.data.class_names); // Added log
+        console.log('Class Names:', response.data.class_names); // Log class names
       })
       .catch(error => {
         console.error('Error fetching class names:', error);
       });
   }, []);
 
+  // Set default selected class when class names are fetched
   useEffect(() => {
     if (classNames.length > 0 && !selectedClass) {
       setSelectedClass(classNames[0]); // Default to first class if not set
     }
   }, [classNames, selectedClass]);
 
+  // Fetch diagnostic data when data, modelName, or selectedClass changes
   useEffect(() => {
-    if (data.length > 0 && modelName) { // Remove classLabel from condition
+    if (data.length > 0 && modelName) {
       const url = process.env.REACT_APP_BACKEND_URL || 'https://webapp-example-backend-6b9cff025ec9.herokuapp.com';
       setLoading(true);
 
@@ -104,7 +108,7 @@ const DiagnosticPlots = ({ data }) => {
     }
   }, [data, modelName, selectedClass]); // Add selectedClass to dependencies
 
-  // 1. Verify and Log probabilities Structure
+  // Log probabilities structure and selected class
   useEffect(() => {
     if (process.env.NODE_ENV !== 'test') {
       console.log('Current Selected Class:', selectedClass);
@@ -291,7 +295,7 @@ const DiagnosticPlots = ({ data }) => {
           )
         )}
       </div>
-      <Footer />
+      <Footer /> {/* Add Footer */}
     </>
   );
 };

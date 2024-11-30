@@ -13,16 +13,19 @@ import './components/InteractiveDashboard/InteractiveDashboard.css';
 import './components/DiagnosticPlots/DiagnosticPlots.css';
 
 const App = () => {
+  // State variables to store result, probabilities, data, and class names
   const [result, setResult] = useState(null);
   const [probabilities, setProbabilities] = useState([]);
   const [data, setData] = useState([]);
   const [classNames, setClassNames] = useState([]);
 
+  // Function to handle new entry, resetting result and probabilities
   const handleNewEntry = () => {
     setResult(null);
     setProbabilities([]);
   };
 
+  // useEffect hook to fetch data and class names from the backend on component mount
   useEffect(() => {
     // Fetch data from the backend
     const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://webapp-example-backend-6b9cff025ec9.herokuapp.com';
@@ -51,14 +54,19 @@ const App = () => {
         <Header />
         <div className="main-content">
           <Routes>
+            {/* Route for Data Description */}
             <Route path="/" element={<DataDescription />} />
+            {/* Route for Interactive Dashboard */}
             <Route path="/eda" element={<InteractiveDashboard data={data} />} />
+            {/* Route for Model Description */}
             <Route path="/model-description" element={<ModelDescription />} />
+            {/* Route for Model Querying */}
             <Route path="/model-querying" element={
               <div className="content-column">
                 <MonitorForm setResult={setResult} />
               </div>
             } />
+            {/* Route for Model Diagnostics */}
             <Route path="/model-diagnostics" element={<DiagnosticPlots data={data} />} />
           </Routes>
         </div>

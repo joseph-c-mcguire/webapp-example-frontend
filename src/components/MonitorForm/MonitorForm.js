@@ -4,6 +4,7 @@ import './MonitorForm.css'; // Import the CSS file
 import Plot from 'react-plotly.js'; // Import Plotly for bar plot
 
 const MonitorForm = ({ setResult }) => {
+  // State to manage form data
   const [formData, setFormData] = useState({
     type: 'M',
     airTemperature: '300',
@@ -14,13 +15,20 @@ const MonitorForm = ({ setResult }) => {
     modelName: 'Decision Tree', // Add modelName to formData
     resultType: 'probability' // Default to probability
   });
+  // State to manage backend URL
   const [backendUrl, setBackendUrl] = useState('');
+  // State to manage loading status
   const [loading, setLoading] = useState(false);
+  // State to manage error messages
   const [error, setError] = useState(null);
-  const [availableModels, setAvailableModels] = useState([]); // Add state for available models
-  const [probabilityResult, setProbabilityResult] = useState(null); // Add state for probability result
-  const [classNames, setClassNames] = useState([]); // Add state for class names
+  // State to manage available models
+  const [availableModels, setAvailableModels] = useState([]);
+  // State to manage probability result
+  const [probabilityResult, setProbabilityResult] = useState(null);
+  // State to manage class names
+  const [classNames, setClassNames] = useState([]);
 
+  // useEffect to fetch backend URL, available models, and class names
   useEffect(() => {
     const url = process.env.REACT_APP_BACKEND_URL || 'https://webapp-example-backend-6b9cff025ec9.herokuapp.com';
     setBackendUrl(url);
@@ -47,6 +55,7 @@ const MonitorForm = ({ setResult }) => {
       });
   }, []);
 
+  // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -55,6 +64,7 @@ const MonitorForm = ({ setResult }) => {
     });
   };
 
+  // Validate form inputs
   const validateForm = () => {
     const { type, airTemperature, processTemperature, rotationalSpeed, torque, toolWear } = formData;
     if (!type || !airTemperature || !processTemperature || !rotationalSpeed || !torque || !toolWear) {
@@ -63,6 +73,7 @@ const MonitorForm = ({ setResult }) => {
     return true;
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
@@ -102,6 +113,7 @@ const MonitorForm = ({ setResult }) => {
     <div className="monitor-form-container">
       <h2>Model Query</h2>
       <form onSubmit={handleSubmit} className="monitor-form">
+        {/* Form fields for input */}
         <div className="form-group">
           <label htmlFor="type">Quality of the item:</label>
           <select id="type" name="type" value={formData.type} onChange={handleChange}>
