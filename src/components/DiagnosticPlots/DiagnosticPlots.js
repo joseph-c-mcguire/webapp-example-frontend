@@ -199,14 +199,14 @@ const DiagnosticPlots = ({ data }) => {
                       tickmode: 'array',
                       tickvals: classNames.map((_, index) => index),
                       ticktext: classNames,
-                      automargin: true,
+                      automargin: true, // Ensure axis title is not cut off
                     },
                     yaxis: {
                       title: 'True Label',
                       tickmode: 'array',
                       tickvals: classNames.map((_, index) => index),
                       ticktext: classNames,
-                      automargin: true,
+                      automargin: true, // Ensure axis title is not cut off
                     },
                   }}
                 />
@@ -226,8 +226,8 @@ const DiagnosticPlots = ({ data }) => {
                 ]}
                 layout={{
                   title: 'Feature Importance',
-                  xaxis: { title: 'Features', automargin: true },
-                  yaxis: { title: 'Importance', automargin: true },
+                  xaxis: { title: 'Features', automargin: true }, // Ensure axis title is not cut off
+                  yaxis: { title: 'Importance', automargin: true }, // Ensure axis title is not cut off
                 }}
               />
               <h2>ROC Curve</h2>
@@ -252,8 +252,8 @@ const DiagnosticPlots = ({ data }) => {
                 ]}
                 layout={{
                   title: `ROC Curve (AUC = ${rocCurve.roc_auc.toFixed(2)})`,
-                  xaxis: { title: 'False Positive Rate' },
-                  yaxis: { title: 'True Positive Rate' },
+                  xaxis: { title: 'False Positive Rate', automargin: true }, // Ensure axis title is not cut off
+                  yaxis: { title: 'True Positive Rate', automargin: true }, // Ensure axis title is not cut off
                   showlegend: true,
                 }}
               />
@@ -278,8 +278,8 @@ const DiagnosticPlots = ({ data }) => {
                   ]}
                   layout={{
                     title: `Prediction Probabilities for ${selectedClass}`,
-                    xaxis: { title: 'Probability' },
-                    yaxis: { title: 'Count' },
+                    xaxis: { title: 'Probability', automargin: true }, // Ensure axis title is not cut off
+                    yaxis: { title: 'Count', automargin: true }, // Ensure axis title is not cut off
                   }}
                 />
               ) : (

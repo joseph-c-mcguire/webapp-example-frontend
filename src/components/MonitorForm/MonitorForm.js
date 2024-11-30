@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './MonitorForm.css'; // Import the CSS file
+import Plot from 'react-plotly.js'; // Import Plotly for bar plot
 
 const MonitorForm = ({ setResult }) => {
   const [formData, setFormData] = useState({
@@ -177,11 +178,17 @@ const MonitorForm = ({ setResult }) => {
       {probabilityResult && classNames.length > 0 && (
         <div className="probability-result">
           <h3>Probability Result:</h3>
-          <ul>
-            {classNames.map((className, index) => (
-              <li key={className}>{className}: {probabilityResult[index]?.toFixed(4)}</li>
-            ))}
-          </ul>
+          <Plot
+            data={[
+              {
+                x: classNames,
+                y: probabilityResult.map(prob => prob.toFixed(4)),
+                type: 'bar',
+                marker: { color: 'blue' },
+              },
+            ]}
+            layout={{ title: 'Class Probabilities', xaxis: { title: 'Class', automargin: true }, yaxis: { title: 'Probability', automargin: true } }} // Ensure axis titles are not cut off
+          />
         </div>
       )}
     </div>

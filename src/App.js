@@ -16,6 +16,7 @@ const App = () => {
   const [result, setResult] = useState(null);
   const [probabilities, setProbabilities] = useState([]);
   const [data, setData] = useState([]);
+  const [classNames, setClassNames] = useState([]);
 
   const handleNewEntry = () => {
     setResult(null);
@@ -33,6 +34,15 @@ const App = () => {
         setData(data);
       })
       .catch(error => console.error('Error fetching data:', error));
+
+    // Fetch class names from the backend
+    fetch(`${formattedBackendUrl}/api/helper/class-names`)
+      .then(response => response.json())
+      .then(data => {
+        console.log('Fetched class names:', data.class_names);
+        setClassNames(data.class_names);
+      })
+      .catch(error => console.error('Error fetching class names:', error));
   }, []);
 
   return (
@@ -47,7 +57,6 @@ const App = () => {
             <Route path="/model-querying" element={
               <div className="content-column">
                 <MonitorForm setResult={setResult} />
-                <Results result={result} handleNewEntry={handleNewEntry} />
               </div>
             } />
             <Route path="/model-diagnostics" element={<DiagnosticPlots data={data} />} />

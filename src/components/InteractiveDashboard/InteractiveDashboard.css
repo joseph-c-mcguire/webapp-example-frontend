@@ -22,10 +22,13 @@
 }
 
 .control-select, .control-input, .control-checkbox {
-	padding: 5px;
+	padding: 8px; /* Increase padding for better touch targets */
 	border-radius: 4px;
 	border: 1px solid #ccc;
 	margin-top: 5px;
+	font-size: 14px; /* Increase font size for better readability */
+	background-color: #fff; /* Ensure background color is white */
+	transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for focus and hover states */
 }
 
 .control-select:hover, .control-input:hover, .control-checkbox:hover {
@@ -60,11 +63,13 @@
 
 .controls label {
 	margin-right: 10px;
+	font-size: 14px; /* Increase font size for better readability */
 }
 
 .dashboard-card h2 {
 	text-align: center;
 	color: #0077b6;
+	font-size: 24px; /* Increase font size for better readability */
 }
 
 .plot-container {
